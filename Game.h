@@ -9,9 +9,11 @@ public:
 
     explicit Game (const std::vector<Deck>& decks);
 
-    bool has_no_moves() const;
+    bool has_no_moves () const;
 
     std::vector<Deck> decks_;
+
+    bool Completed () const;
 };
 
 bool can_be_solved(Game);

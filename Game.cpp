@@ -27,8 +27,46 @@ bool Game::has_no_moves() const {
     return true;
 }
 
+bool Game::Completed () const {
+    for (int i = 0; i < place_cnt; ++i) {
+        if (!decks_[i].empty())
+            return false;
+    }
+    return true;
+}
+
 bool can_be_solved(Game game) {
-    return !game.has_no_moves();
+    if (game.Completed())
+        return true;
+
+    if (game.has_no_moves())
+        return false;
+
+    for (int i = 0; i < place_cnt; ++i) {
+        if (game.decks_[i].possible_to_fold()) {
+            Game game1 = game;
+            game1.decks_[i].fold();
+            if (can_be_solved(game1))
+                return true;
+        }
+    }
+
+    for (int i = 0; i < place_cnt; ++i) {
+        for (int j = 0; j < place_cnt; ++j) {
+            if (i == j) {
+                continue;
+            }
+
+            if (game.decks_[i].possible_move_to(game.decks_[j])) {
+                Game game1 = game;
+                game1.decks_[i].move(game1.decks_[j]);
+                if (can_be_solved(game1))
+                    return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 

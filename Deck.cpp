@@ -49,8 +49,12 @@ bool Deck::possible_move_to (const Deck& another_deck) const {
     if (wanted_pos == -1)
         return false;
 
+
     int seq_started_pos = deck_.size() - find_most_grow_seq();
-    return seq_started_pos <= wanted_pos;
+    if (seq_started_pos > wanted_pos)
+        return false;
+
+    return wanted_pos - seq_started_pos < another_deck.find_most_grow_seq();
 }
 
 void Deck::move (Deck& another_deck) {
