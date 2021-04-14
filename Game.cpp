@@ -9,6 +9,11 @@ Game::Game (const std::vector<Deck>& decks) : decks_(decks) {
 
 bool Game::has_no_moves() const {
     for (int i = 0; i < place_cnt; ++i) {
+        if (decks_[i].possible_to_fold())
+            return false;
+    }
+
+    for (int i = 0; i < place_cnt; ++i) {
         for (int j = 0; j < place_cnt; ++j) {
             if (i == j) {
                 continue;

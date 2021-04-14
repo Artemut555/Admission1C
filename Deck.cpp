@@ -54,16 +54,25 @@ bool Deck::possible_move_to (const Deck& another_deck) const {
 }
 
 void Deck::move (Deck& another_deck) {
-    int wanted_pos = find_last_pos(another_deck.back().get_value() - 1);
+    int wanted_pos;
+    if (another_deck.empty()) {
+        int len = find_most_grow_seq();
+        wanted_pos = deck_.size() - len;
+    } else {
+        wanted_pos = find_last_pos(another_deck.back().get_value() - 1);
+    }
+
     std::vector<Card> to_move;
     while (deck_.size() != wanted_pos) {
         to_move.push_back(deck_.back());
         deck_.pop_back();
     }
+
     while (!to_move.empty()) {
         another_deck.put(to_move.back());
         to_move.pop_back();
     }
+
     open_last_card_();
 }
 
